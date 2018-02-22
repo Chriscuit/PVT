@@ -30,10 +30,14 @@ import android.view.View;
 * - response to the dialogue
 * */
 
+/*
+* Probably add a page where you can view the rules and stuff before proceeding to the actual test, maybe and information button in the corner?
+* */
 
 public class MainActivity extends AppCompatActivity {
 
     View button2;
+    View button3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         button2 = (View) findViewById(R.id.button2);
+
+        button2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, TestActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        button3 = (View) findViewById(R.id.button3);
+
         button2.setOnClickListener(new View.OnClickListener() {
 
             @Override

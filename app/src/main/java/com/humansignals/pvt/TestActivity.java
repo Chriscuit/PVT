@@ -18,17 +18,15 @@ public class TestActivity extends Activity implements View.OnClickListener {
     TextView counter;
     View button;
 
-    long init, now, time;
+    long testStart, init, now, time;
     Handler handler;
     Runnable updater;
     int state = 0;
 
-    int min = 3000;
-    int max = 5000;
+    int testLength = 180000;
+    int min = 5000;
+    int max = 30000;
     int rand;
-
-    int roundCap = 5;
-    int round = 0;
 
     ArrayList<Long> data = new ArrayList();
 
@@ -59,17 +57,18 @@ public class TestActivity extends Activity implements View.OnClickListener {
             }
         };
 
+        testStart = System.currentTimeMillis();
+
         startRandCount();
     }
 
     @Override
     public void onClick(View v) {
-        round++;
         data.add(time);
-
-        if (round == roundCap) {
-            System.exit(0);
+        now = System.currentTimeMillis();
+        if (now - testStart >= testLength) {
             saveData(data);
+            System.exit(0);
         }
         state = 0;
         handler.removeCallbacks(updater);
@@ -87,4 +86,8 @@ public class TestActivity extends Activity implements View.OnClickListener {
     public void saveData(ArrayList<Long> data) {
         // do something here
     }
+
+    // fix placement of the end time condition
+    // display the remaining time at the top of the screen
+    // make sure that a count doesn't start too close to the end or the beginning of the test
 }
