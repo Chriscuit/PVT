@@ -22,7 +22,6 @@ import android.view.View;
 * 1) Main menu screen where there are two buttons
 * - Run Test
 * - log history
-* 2) On start test, show remaining time for test at top
 * 3) At end of test ask about alertness
 * 4) On history page, show...
 * - results

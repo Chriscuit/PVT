@@ -15,17 +15,21 @@ import java.util.Random;
 
 public class TestActivity extends Activity implements View.OnClickListener {
 
+    TextView remaining;
     TextView counter;
     View button;
 
-    long testStart, init, now, time;
+    int seconds, minutes;
+    long timeLeft, elapsed, testStart, init, now, time;
     Handler handler;
+    Handler handler2;
     Runnable updater;
+    Runnable ender;
     int state = 0;
 
     int testLength = 180000;
     int min = 5000;
-    int max = 30000;
+    int max = 10000;
     int rand;
 
     ArrayList<Long> data = new ArrayList();
@@ -38,6 +42,7 @@ public class TestActivity extends Activity implements View.OnClickListener {
         button = (View) findViewById(R.id.button);
         button.setOnClickListener(this);
         counter = (TextView) findViewById(R.id.counter);
+        remaining = (TextView) findViewById(R.id.remaining);
 
         handler = new Handler();
 
@@ -57,24 +62,42 @@ public class TestActivity extends Activity implements View.OnClickListener {
             }
         };
 
+        handler2 = new Handler();
+
+        ender = new Runnable() {
+            @Override
+            public void run() {
+                now = System.currentTimeMillis();
+                elapsed = now - testStart;
+                timeLeft = testLength - elapsed;
+                if (elapsed >= testLength) {
+                    saveData(data);
+                }
+
+                seconds = (int) ((timeLeft / 1000) % 60);
+                minutes = (int) ((timeLeft / 1000) / 60);
+
+                remaining.setText(minutes + ":" + seconds);
+                handler2.postDelayed(this, 30);
+            }
+        };
+
         testStart = System.currentTimeMillis();
 
+        handler2.post(ender);
         startRandCount();
     }
 
     @Override
     public void onClick(View v) {
-        data.add(time);
-        now = System.currentTimeMillis();
-        if (now - testStart >= testLength) {
-            saveData(data);
-            System.exit(0);
-        }
-        state = 0;
-        handler.removeCallbacks(updater);
-        counter.setText("");
+        if(state == 1) {
+            data.add(time);
+            state = 0;
+            handler.removeCallbacks(updater);
+            counter.setText("");
 
-        startRandCount();
+            startRandCount();
+        }
     }
 
     public void startRandCount() {
@@ -87,7 +110,4 @@ public class TestActivity extends Activity implements View.OnClickListener {
         // do something here
     }
 
-    // fix placement of the end time condition
-    // display the remaining time at the top of the screen
-    // make sure that a count doesn't start too close to the end or the beginning of the test
 }
