@@ -3,7 +3,6 @@ package com.humansignals.pvt;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.CheckBox;
 
@@ -14,7 +13,7 @@ import android.widget.CheckBox;
 public class SurveyActivity extends Activity {
 
     CheckBox box1, box2, box3, box4, box5;
-    String alertness;
+    int alertness;
 
 
     @Override
@@ -27,8 +26,9 @@ public class SurveyActivity extends Activity {
         box1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               alertness = "Very Unalert";
+               alertness = 1;
                toMain();
+
             }
         });
 
@@ -36,8 +36,9 @@ public class SurveyActivity extends Activity {
         box2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertness = "Unalert";
+                alertness = 2;
                 toMain();
+
             }
         });
 
@@ -45,8 +46,9 @@ public class SurveyActivity extends Activity {
         box3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertness = "Neutral";
+                alertness = 3;
                 toMain();
+
             }
         });
 
@@ -54,8 +56,9 @@ public class SurveyActivity extends Activity {
         box4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertness = "Alert";
+                alertness = 4;
                 toMain();
+
             }
         });
 
@@ -63,21 +66,18 @@ public class SurveyActivity extends Activity {
         box5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertness = "Very Alert";
+                alertness = 5;
                 toMain();
+
             }
         });
     }
 
     void toMain() {
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("alertness",alertness);
+        setResult(Activity.RESULT_OK,returnIntent);
+        finish();
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(SurveyActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        }, 1000);
     }
 }
