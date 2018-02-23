@@ -20,6 +20,16 @@
             android:name=".TestActivity"
             android:label="@string/test_name" >
         </activity>
+
+        <activity
+            android:name=".HistoryActivity"
+            android:label="@string/history_name" >
+        </activity>
+
+        <activity
+            android:name=".SurveyActivity"
+            android:label="@string/survey_name" >
+        </activity>
     </application>
 
 </manifest>

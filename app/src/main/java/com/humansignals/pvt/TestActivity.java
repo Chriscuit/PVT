@@ -1,6 +1,7 @@
 package com.humansignals.pvt;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -27,7 +28,7 @@ public class TestActivity extends Activity implements View.OnClickListener {
     Runnable ender;
     int state = 0;
 
-    int testLength = 180000;
+    int testLength = 30000;
     int min = 5000;
     int max = 10000;
     int rand;
@@ -58,7 +59,7 @@ public class TestActivity extends Activity implements View.OnClickListener {
                 counter.setText("" + time);
                 handler.postDelayed(this, 30);
 
-                if (time > 15000) System.exit(0);
+                if (time >= 15000) finish();
             }
         };
 
@@ -72,13 +73,17 @@ public class TestActivity extends Activity implements View.OnClickListener {
                 timeLeft = testLength - elapsed;
                 if (elapsed >= testLength) {
                     saveData(data);
+
+                    Intent intent = new Intent(TestActivity.this, SurveyActivity.class);
+                    startActivity(intent);
+                } else {
+
+                    seconds = (int) ((timeLeft / 1000) % 60);
+                    minutes = (int) ((timeLeft / 1000) / 60);
+
+                    remaining.setText(minutes + ":" + seconds);
+                    handler2.postDelayed(this, 30);
                 }
-
-                seconds = (int) ((timeLeft / 1000) % 60);
-                minutes = (int) ((timeLeft / 1000) / 60);
-
-                remaining.setText(minutes + ":" + seconds);
-                handler2.postDelayed(this, 30);
             }
         };
 
@@ -94,6 +99,7 @@ public class TestActivity extends Activity implements View.OnClickListener {
             data.add(time);
             state = 0;
             handler.removeCallbacks(updater);
+
             counter.setText("");
 
             startRandCount();
