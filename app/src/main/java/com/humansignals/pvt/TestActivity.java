@@ -38,9 +38,9 @@ public class TestActivity extends Activity implements View.OnClickListener {
     int state = 0;
 
     static final int REQUEST_CODE = 1;
-    int testLength = 30000;
+    int testLength = 180000;
     int min = 5000;
-    int max = 10000;
+    int max = 30000;
     int rand;
 
     ArrayList<Long> data = new ArrayList();
@@ -152,7 +152,7 @@ public class TestActivity extends Activity implements View.OnClickListener {
 //    }
 
     public void saveData(int alertness){
-        String fileName = "cognitive_data.txt";
+        String fileName = "PVT_data.txt";
         StringBuilder aggregateBuilder = new StringBuilder();
 
         // distance, length error, duration, speed, timestamp, category
@@ -163,7 +163,7 @@ public class TestActivity extends Activity implements View.OnClickListener {
         aggregateBuilder.append(String.valueOf(alertness) + "\t");
 
         String data = aggregateBuilder.toString();
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/customLock/" ;
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/PVT/" ;
         Log.d("SAVE PATH", path);
         try {
             new File(path).mkdir();
